@@ -36,32 +36,32 @@ An end-to-end automated video generation system that converts text prompts into 
 
 ```mermaid
 flowchart TD
-    User(["👤 User Prompt"]) --> Frontend["💻 Web UI (HTML5 / CSS / JS)"]
-    Frontend --> Server["⚡ FastAPI Backend (server.py)"]
+    User([" User Prompt"]) --> Frontend[" Web UI (HTML5 / CSS / JS)"]
+    Frontend --> Server[" FastAPI Backend (server.py)"]
     
     subgraph "AI Generation Pipeline"
-        Server --> LLM["📝 LLM Script Generator (Gemini Free / Pollinations)"]
-        LLM --> Scenes["🎬 Scene Breakdown (JSON)"]
+        Server --> LLM["LLM Script Generator (Gemini Free / Pollinations)"]
+        LLM --> Scenes["Scene Breakdown (JSON)"]
         
-        Scenes --> TTS["🎙️ Edge-TTS (Neural Voiceover)"]
-        Scenes --> ImgGen["🎨 Pollinations AI (Flux / SDXL Visuals)"]
-        Scenes --> Subs["💬 Subtitle Generator (.srt / .ass)"]
+        Scenes --> TTS["Edge-TTS (Neural Voiceover)"]
+        Scenes --> ImgGen["Pollinations AI (Flux / SDXL Visuals)"]
+        Scenes --> Subs["Subtitle Generator (.srt / .ass)"]
     end
     
     subgraph "FFmpeg Video Assembly"
-        TTS --> AudioDur["⏱️ Audio Duration Sync"]
-        ImgGen --> Motion["🎥 Ken Burns Motion (zoompan)"]
-        Subs --> BurnSubs["🖋️ Burn Subtitles"]
-        Motion --> SceneClip["🎞️ Scene MP4 Clips"]
+        TTS --> AudioDur["Audio Duration Sync"]
+        ImgGen --> Motion["Ken Burns Motion (zoompan)"]
+        Subs --> BurnSubs[" Burn Subtitles"]
+        Motion --> SceneClip["Scene MP4 Clips"]
         AudioDur --> SceneClip
         BurnSubs --> SceneClip
         
-        SceneClip --> Concat["🔗 Concat Demuxer"]
-        Concat --> BGM["🎵 Ambient Music Mixing"]
-        BGM --> FinalMP4["📦 Final Web-Optimized MP4"]
+        SceneClip --> Concat["Concat Demuxer"]
+        Concat --> BGM["Ambient Music Mixing"]
+        BGM --> FinalMP4["Final Web-Optimized MP4"]
     end
     
-    FinalMP4 --> Player["📺 HTML5 Video Player & Download"]
+    FinalMP4 --> Player["HTML5 Video Player & Download"]
 ```
 
 ---
