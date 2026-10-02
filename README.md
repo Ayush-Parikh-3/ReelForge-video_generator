@@ -1,10 +1,10 @@
-# 🎬 AI Prompt-to-Video Studio
+# AI Prompt-to-Video Studio
 
 An end-to-end automated video generation system that converts text prompts into fully produced MP4 videos with scriptwriting, scene storyboarding, AI neural voiceover, high-resolution visuals, dynamic camera movement, subtitles, and ambient music mixing using **FFmpeg** and **100% Free APIs**.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 1. **Prompt to Script**:
    - Accepts any text prompt or creative concept.
@@ -27,12 +27,12 @@ An end-to-end automated video generation system that converts text prompts into 
    - Faststart MP4 encoding for immediate web playback.
 
 5. **Two Production Modes**:
-   - **⚡ 1-Click Fast Video**: Generates the complete MP4 video automatically in one click.
-   - **📝 Storyboard Studio**: Generates the script and scenes first, allowing you to edit the narration, tweak visual prompts, and preview before rendering.
+   - ** 1-Click Fast Video**: Generates the complete MP4 video automatically in one click.
+   - ** Storyboard Studio**: Generates the script and scenes first, allowing you to edit the narration, tweak visual prompts, and preview before rendering.
 
 ---
 
-## 📐 System Architecture
+##  System Architecture
 
 ```mermaid
 flowchart TD
@@ -66,7 +66,7 @@ flowchart TD
 
 ---
 
-## 🚀 Quick Start Guide
+##  Quick Start Guide
 
 ### 1. Launch the Server
 Open PowerShell in this directory and run:
@@ -79,17 +79,17 @@ Or double-click:
 
 ### 2. Open the Web App
 Open your browser and visit:
-👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
+ **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
 ### 3. Generate a Video
 1. Enter your idea in the prompt box (or click one of the quick idea chips like *Ocean Depths* or *Brain Tricks*).
 2. Choose your preferred **Aspect Ratio** (16:9 Landscape or 9:16 Vertical Reel).
 3. Pick a **Narrator Voice** (you can click the preview button to listen).
-4. Click **"⚡ Generate Full Video"** and watch the live progress bar and terminal logs!
+4. Click **" Generate Full Video"** and watch the live progress bar and terminal logs!
 
 ---
 
-## 🔑 Free API Keys (Zero Configuration Required!)
+##  Free API Keys (Zero Configuration Required!)
 
 | Service | Provider | Cost | API Key Required? |
 | :--- | :--- | :--- | :--- |
