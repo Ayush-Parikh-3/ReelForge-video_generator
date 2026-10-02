@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VividAI Studio | Prompt to Script to Video Generator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">🎬</span>
+        <div class="logo-text">
+          <h1>VividAI <span>Studio</span></h1>
+          <p>Prompt to Script to Video AI Engine</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="status-badge" id="ffmpegStatus">
+        <span class="status-dot"></span>
+        <span id="statusText">Checking FFmpeg...</span>
+      </div>
+      <button class="icon-btn" id="historyBtn" title="Video History">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>History</span>
+      </button>
+      <button class="icon-btn" id="settingsBtn" title="API Keys & Preferences">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>Keys & Config</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Container -->
+  <main class="main-content">
+    
+    <!-- Hero / Creation Panel -->
+    <section class="creation-card glass-panel">
+      <div class="panel-header">
+        <div class="badge-pill">✨ Fully Automated Video Production</div>
+        <h2>What video would you like to create?</h2>
+        <p>Type any topic or story idea. VividAI will write the viral script, voice it, generate cinematic visuals, and assemble the full MP4 video with FFmpeg.</p>
+      </div>
+
+      <!-- Prompt Input -->
+      <div class="prompt-box-wrapper">
+        <textarea id="promptInput" rows="3" placeholder="Describe your video idea... (e.g. 'The lost civilization found under the ice of Antarctica' or 'Why do we dream at night?')"></textarea>
+        
+        <div class="inspiration-chips">
+          <span class="chip-label">Quick Ideas:</span>
+          <button class="chip" data-prompt="The mystery of the ocean twilight zone and its bizarre glowing creatures">🌊 Ocean Depths</button>
+          <button class="chip" data-prompt="How the James Webb telescope changed our understanding of the universe">🔭 Webb Telescope</button>
+          <button class="chip" data-prompt="The history of coffee: From Ethiopian shepherds to global obsession">☕ Coffee Origins</button>
+          <button class="chip" data-prompt="Cyberpunk city living in the year 2085: Holograms, flying cabs, and cybernetics">🏙️ Future 2085</button>
+          <button class="chip" data-prompt="3 psychological tricks the human brain plays on us every single day">🧠 Brain Tricks</button>
+        </div>
+      </div>
+
+      <!-- Studio Options Controls -->
+      <div class="controls-grid">
+        <!-- Aspect Ratio -->
+        <div class="control-group">
+          <label>Aspect Ratio / Format</label>
+          <div class="toggle-group" id="aspectRatioGroup">
+            <button class="toggle-btn active" data-val="16:9">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/></svg>
+              <span>16:9 Landscape</span>
+            </button>
+            <button class="toggle-btn" data-val="9:16">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/></svg>
+              <span>9:16 Shorts/Reels</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Style -->
+        <div class="control-group">
+          <label for="styleSelect">Visual Art Style</label>
+          <select id="styleSelect" class="form-select">
+            <option value="cinematic" selected>🎬 Cinematic Photorealistic (8K)</option>
+            <option value="cyberpunk">🌃 Cyberpunk & Neon City</option>
+            <option value="anime">✨ Anime & Makoto Shinkai</option>
+            <option value="documentary">📷 NatGeo Documentary</option>
+            <option value="fantasy">🔮 Epic Fantasy & Mythic</option>
+            <option value="vintage">🎞️ Vintage 70s Film</option>
+            <option value="minimalist">📐 Clean 3D Minimalist</option>
+          </select>
+        </div>
+
+        <!-- Voice Selector with Audio Preview -->
+        <div class="control-group">
+          <label for="voiceSelect">AI Narrator Voice</label>
+          <div class="voice-picker-row">
+            <select id="voiceSelect" class="form-select"></select>
+            <button id="previewVoiceBtn" class="secondary-btn icon-only" title="Preview Voice Audio">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scene Count Slider -->
+        <div class="control-group">
+          <div class="label-row">
+            <label>Scene Count</label>
+            <span class="range-val" id="sceneCountVal">4 scenes (~24s)</span>
+          </div>
+          <input type="range" id="sceneCountSlider" min="2" max="6" value="4" class="form-range">
+        </div>
+
+        <!-- Subtitle Color -->
+        <div class="control-group">
+          <label for="subtitleColor">Subtitle Styling</label>
+          <select id="subtitleColor" class="form-select">
+            <option value="yellow" selected>🟡 High-Contrast Yellow (Viral TikTok)</option>
+            <option value="white">⚪ Crisp White Minimal</option>
+            <option value="cyan">🔵 Cyber Cyan Glow</option>
+            <option value="gold">🟠 Warm Gold Luxury</option>
+          </select>
+        </div>
+
+        <!-- Background Music -->
+        <div class="control-group">
+          <label>Audio Ambience</label>
+          <div class="checkbox-row">
+            <label class="custom-switch">
+              <input type="checkbox" id="musicToggle" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="switch-label">Include Ambient Background Music</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-row">
+        <button id="generateVideoBtn" class="btn-primary">
+          <span class="btn-icon">⚡</span>
+          <span>Generate Full Video</span>
+        </button>
+        <button id="generateScriptBtn" class="btn-secondary">
+          <span class="btn-icon">📝</span>
+          <span>Generate & Edit Script First</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Progress & Pipeline Monitor Section -->
+    <section id="progressSection" class="progress-section glass-panel hidden">
+      <div class="progress-card-header">
+        <div class="title-with-spinner">
+          <div class="spinner"></div>
+          <div>
+            <h3 id="progressTitle">Crafting Your Video...</h3>
+            <p id="progressMessage">Initializing AI pipeline...</p>
+          </div>
+        </div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+      </div>
+
+      <!-- Stepper Icons -->
+      <div class="pipeline-stepper">
+        <div class="step-node active" id="stepScript">
+          <div class="step-icon">📜</div>
+          <span>1. Script & Scenes</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-node" id="stepVoice">
+          <div class="step-icon">🎙️</div>
+          <span>2. Neural Voiceover</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-node" id="stepVisuals">
+          <div class="step-icon">🎨</div>
+          <span>3. AI Artwork</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-node" id="stepRender">
+          <div class="step-icon">🎞️</div>
+          <span>4. FFmpeg Video</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar Track -->
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 5%"></div>
+      </div>
+
+      <!-- Live Terminal Log Drawer -->
+      <div class="terminal-box">
+        <div class="terminal-bar">
+          <div class="term-dots"><span></span><span></span><span></span></div>
+          <span class="term-title">FFmpeg & Pipeline Live Logs</span>
+        </div>
+        <div class="terminal-output" id="terminalLogs"></div>
+      </div>
+    </section>
+
+    <!-- Script / Storyboard Editor Section (Shown when user wants to review script) -->
+    <section id="storyboardSection" class="storyboard-section glass-panel hidden">
+      <div class="storyboard-header">
+        <div>
+          <span class="badge-pill">🎬 Storyboard Studio</span>
+          <h2 id="sbTitle">Script Preview</h2>
+          <p>Review and edit your scene narrations and visual prompts before rendering the video.</p>
+        </div>
+        <button id="renderStoryboardBtn" class="btn-primary">
+          <span>🚀 Render Video From This Storyboard</span>
+        </button>
+      </div>
+
+      <div class="scenes-list" id="scenesContainer"></div>
+    </section>
+
+    <!-- Final Result Video Section -->
+    <section id="resultSection" class="result-section glass-panel hidden">
+      <div class="result-header">
+        <div>
+          <span class="badge-pill success">🎉 Production Complete</span>
+          <h2 id="resultTitle">Your Video is Ready!</h2>
+          <p id="resultMeta">Rendered with FFmpeg & Neural AI Voices</p>
+        </div>
+        <div class="result-actions">
+          <a id="downloadVideoBtn" class="btn-primary" download>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span>Download MP4</span>
+          </a>
+          <button id="newVideoBtn" class="btn-secondary">
+            <span>✨ Create Another</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Video Player Wrapper -->
+      <div class="video-showcase-grid">
+        <div class="video-container" id="videoContainer">
+          <video id="finalVideoPlayer" controls playsinline preload="auto">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Scene Breakdown Cards -->
+        <div class="scene-breakdown-panel">
+          <h3>Generated Scene Breakdown</h3>
+          <div class="scene-cards-scroll" id="sceneCardsScroll"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>⚙️ Studio Settings & Free API Keys</h3>
+        <button class="modal-close-btn" id="closeSettingsBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-field">
+          <label>Google Gemini API Key (Optional)</label>
+          <input type="password" id="geminiApiKey" placeholder="AIzaSy..." class="form-input">
+          <div class="field-hint">
+            <span>💡 100% Free: Get a free Gemini key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>.</span>
+            <span>If left empty, VividAI uses the built-in free AI provider without requiring any key!</span>
+          </div>
+        </div>
+
+        <div class="setting-field">
+          <label>Image API Key (Optional - Pexels / Pollinations)</label>
+          <input type="password" id="imageApiKey" placeholder="Pexels or Pollinations Key..." class="form-input">
+          <div class="field-hint">
+            <span>💡 100% Free: Get a free key from <a href="https://www.pexels.com/api/" target="_blank" rel="noopener">Pexels</a> (20k free stock photos/mo) or <a href="https://enter.pollinations.ai" target="_blank" rel="noopener">Pollinations</a>.</span>
+            <span>If left empty, high-resolution stylized kinetic graphic scenes are automatically rendered!</span>
+          </div>
+        </div>
+
+        <div class="info-callout">
+          <h4>🌟 Fully Free Stack Highlights:</h4>
+          <ul>
+            <li><strong>FFmpeg:</strong> Bundled automatically via imageio-ffmpeg for video assembly.</li>
+            <li><strong>Voiceover:</strong> Microsoft Edge-TTS (12+ neural voices, 0 API keys required).</li>
+            <li><strong>Images:</strong> Pollinations AI (Flux & SDXL models, unlimited free tier).</li>
+            <li><strong>Scripting:</strong> Free Pollinations Text API + Free Gemini API tier.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="saveSettingsBtn" class="btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Drawer -->
+  <div id="historyModal" class="modal-overlay hidden">
+    <div class="modal-card wide">
+      <div class="modal-header">
+        <h3>📂 Previously Generated Videos</h3>
+        <button class="modal-close-btn" id="closeHistoryBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="historyList" class="history-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio preview element -->
+  <audio id="previewAudio" style="display:none"></audio>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
